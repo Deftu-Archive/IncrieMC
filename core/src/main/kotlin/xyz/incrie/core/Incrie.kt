@@ -6,8 +6,8 @@ import xyz.deftu.eventbus.SimpleEventBus
 
 interface Incrie {
 
-    fun getLogger(): Logger
-    fun getEventBus(): SimpleEventBus
+    fun logger(): Logger
+    fun eventBus(): SimpleEventBus
 
     companion object {
         var instance: Incrie
@@ -17,10 +17,10 @@ interface Incrie {
             val di = IncrieDI(DI.from(emptyList()))
             val directAware = di.direct
             val directDi = directAware.directDI
-            instance = directDi.instance()
+            instance = directDi.instance(Incrie)
         }
 
-        fun getLogger() = instance.getLogger()
-        fun getEventBus() = instance.getEventBus()
+        @JvmStatic fun getLogger() = instance.logger()
+        @JvmStatic fun getEventBus() = instance.eventBus()
     }
 }

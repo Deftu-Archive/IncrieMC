@@ -10,16 +10,22 @@ buildConfig {
 }
 
 dependencies {
-    shade("xyz.deftu.eventbus:SimpleEventBus:1.0.1")
-    shade("xyz.deftu.deftils:Deftils:1.2.1")
-    shade("com.github.ben-manes.caffeine:caffeine:2.9.3")
+    shade("org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinCoroutinesVersion}")
+    shade("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-    shade("org.kodein.di:kodein-di-generic-jvm:5.0.1")
-    shade("org.kodein.di:kodein-di:7.10.0")
+    shade("xyz.deftu.eventbus:SimpleEventBus:${simpleEventBusVersion}")
+    shade("xyz.deftu.deftils:Deftils:${deftilsVersion}")
+    shade("com.github.ben-manes.caffeine:caffeine:${caffeineVersion}")
+    shade api("com.squareup.okhttp3:okhttp:${okHttpVersion}")
 
-    implementation('org.apache.logging.log4j:log4j-api:2.15.0')
-    implementation('org.apache.logging.log4j:log4j-core:2.15.0')
-    implementation('org.apache.logging.log4j:log4j-slf4j18-impl:2.15.0')
+    shade("org.kodein.di:kodein-di-generic-jvm:${kodeinJvmGenericVersion}")
+    shade("org.kodein.di:kodein-di:${kodeinVersion}")
+
+    implementation("org.spongepowered:mixin:0.7.11-SNAPSHOT")
+
+    implementation("org.apache.logging.log4j:log4j-api:2.16.0")
+    implementation("org.apache.logging.log4j:log4j-core:2.17.0")
+    implementation("org.apache.logging.log4j:log4j-slf4j18-impl:2.17.0")
 }
 
 java {

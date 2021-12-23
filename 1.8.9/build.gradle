@@ -26,13 +26,6 @@ minecraft {
     runDir = "run"
 }
 
-repositories {
-    maven {
-        name = "SpongePowered"
-        url = "https://repo.spongepowered.org/maven/"
-    }
-}
-
 dependencies {
     shade(project(path: ":core", configuration: "default"))
 
