@@ -24,10 +24,10 @@ interface Incrie {
             private set
 
         init {
-            val di = IncrieDI(DI.from(emptyList()))
+            val di = BaseIncrieDI()
             val directAware = di.direct
             val directDi = directAware.directDI
-            instance = directDi.instance(Incrie)
+            instance = directDi.instance(org.kodein.di.generic.)
             instance.eventBus().register(instance, SubscriberDepth.SUPER)
         }
 
