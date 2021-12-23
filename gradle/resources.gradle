@@ -1,0 +1,30 @@
+task moveResources {
+    doLast {
+        try {
+            ant.move file: "${buildDir}/resources/main", todir: "${buildDir}/classes/java"
+        } catch (Exception e) {
+            e.printStackTrace()
+        }
+    }
+}
+
+processResources {
+    inputs.property "modid", projectId
+    inputs.property "name", projectName
+    inputs.property "version", projectVersion
+    inputs.property "mcversion", minecraft.version
+
+    filesMatching("mcmod.info") {
+        expand(
+                "id": projectId,
+                "name": projectName,
+                "version": projectVersion,
+                "mcversion": minecraft.version
+        )
+    }
+
+    rename '(.+_at.cfg)', 'META-INF/$1'
+}
+
+moveResources.dependsOn(processResources)
+classes.dependsOn(moveResources)
