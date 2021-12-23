@@ -14,6 +14,7 @@ public class MinecraftMixin {
     @Inject(method = "startGame", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/particle/EffectRenderer;<init>(Lnet/minecraft/world/World;Lnet/minecraft/client/renderer/texture/TextureManager;)V"))
     private void onGameStarted(CallbackInfo ci) {
         Incrie.Companion.getEventBus().post(new IncrieInitializationEvent(Incrie.Companion.getInstance()));
+        System.out.println("Wow okay.");
     }
 
 }

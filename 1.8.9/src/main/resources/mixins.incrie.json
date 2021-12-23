@@ -1,0 +1,9 @@
+{
+    "verbose": true,
+    "required": true,
+    "compatibilityLevel": "JAVA_8",
+    "package": "xyz.incrie.mixins",
+    "mixins": [
+        "MinecraftMixin"
+    ]
+}

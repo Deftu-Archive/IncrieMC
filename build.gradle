@@ -23,6 +23,8 @@ allprojects {
     version = projectVersion
     group = projectGroup
 
+    sourceCompatibility = targetCompatibility = "1.8"
+
     configurations {
         shade
         implementation.extendsFrom(shade)

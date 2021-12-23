@@ -1,14 +1,8 @@
 buildscript {
     repositories {
-        maven {
-            url = "https://maven.minecraftforge.net/"
-        }
-        maven {
-            url = "https://jitpack.io/"
-        }
-        maven {
-            url = "https://repo.spongepowered.org/maven/"
-        }
+        maven { url = "https://maven.minecraftforge.net/" }
+        maven { url = "https://jitpack.io/" }
+        maven { url = "https://repo.spongepowered.org/maven/" }
     }
     dependencies {
         classpath("com.github.ReplayMod:ForgeGradle:ceb83c0:all")
@@ -22,8 +16,9 @@ apply plugin: "org.spongepowered.mixin"
 minecraft {
     version = "1.8.9-11.15.1.2318-1.8.9"
     mappings = "stable_22"
-
     runDir = "run"
+
+    clientRunArgs += "--tweakClass xyz.incrie.DevTweaker"
 }
 
 dependencies {
