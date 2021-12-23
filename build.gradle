@@ -1,161 +1,68 @@
-/* ========================================================= */
-/* Don't modify this file unless you know what you're doing! */
-/* Don't modify this file unless you know what you're doing! */
-/* Don't modify this file unless you know what you're doing! */
-/* Don't modify this file unless you know what you're doing! */
-/* Don't modify this file unless you know what you're doing! */
-/* Don't modify this file unless you know what you're doing! */
-/* Don't modify this file unless you know what you're doing! */
-/* Don't modify this file unless you know what you're doing! */
-/* Don't modify this file unless you know what you're doing! */
-/* Don't modify this file unless you know what you're doing! */
-/* Don't modify this file unless you know what you're doing! */
-/* Don't modify this file unless you know what you're doing! */
-/* Don't modify this file unless you know what you're doing! */
-/* Don't modify this file unless you know what you're doing! */
-/* Don't modify this file unless you know what you're doing! */
-/* Don't modify this file unless you know what you're doing! */
-/* ========================================================= */
-
-def applyMixin = Boolean.valueOf(applyMixin)
-def applyKotlin = Boolean.valueOf(applyKotlin)
-
-buildscript {
-    repositories {
-        mavenCentral()
-        mavenLocal()
-
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-        maven {
-            url = "https://jitpack.io/"
-        }
-        maven {
-            url = "https://repo.spongepowered.org/maven/"
-        }
-    }
-
-    dependencies {
-        classpath("com.github.ReplayMod:ForgeGradle:${forgeGradleVersion}:all")
-        classpath("gradle.plugin.com.github.johnrengelman:shadow:${shadowVersion}")
-        if (applyMixin) classpath("dev.isXander:MixinGradle:${mixinGradleVersion}")
-        if (applyKotlin) classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
-    }
+plugins {
+    id "com.github.johnrengelman.shadow" version "$shadowVersion"
+    id "com.github.gmazzo.buildconfig" version "$buildConfigVersion"
+    id "org.jetbrains.kotlin.jvm" version "$kotlinVersion"
+    id "maven-publish"
+    id "java"
 }
-
-apply plugin: "com.github.johnrengelman.shadow"
-apply plugin: "net.minecraftforge.gradle.forge"
-apply plugin: "java"
 
 version = projectVersion
 group = projectGroup
 archivesBaseName = projectName
 
-sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = targetCompatibility = "1.8"
 compileJava.options.encoding = "UTF-8"
+compileKotlin.kotlinOptions.languageVersion = "1.6"
+compileKotlin.kotlinOptions.jvmTarget = "1.8"
 
-if (applyMixin) {
-    apply plugin: "org.spongepowered.mixin"
-
-    mixin {
-        disableRefMapWarning = true
-        add(sourceSets.main, "mixins.${projectId}.refmap.json")
-    }
-
-    sourceSets {
-        main {
-            ext.refMap = "mixins.${projectId}.refmap.json"
-        }
-    }
-
-    dependencies {
-        if (Boolean.valueOf(bundleMixin)) {
-            shade("org.spongepowered:mixin:${mixinVersion}");
-        } else {
-            implementation("org.spongepowered:mixin:${mixinVersion}")
-        }
-
-        annotationProcessor("org.spongepowered:mixin:${mixinVersion}")
-    }
-}
-
-if (applyKotlin) {
+allprojects {
+    apply plugin: "com.github.johnrengelman.shadow"
     apply plugin: "org.jetbrains.kotlin.jvm"
-    compileKotlin.kotlinOptions.languageVersion = kotlinLangVersion
-    compileKotlin.kotlinOptions.jvmTarget = "1.8"
-}
+    apply plugin: "java"
 
-minecraft {
-    version = minecraftVersion
-    runDir = "run"
+    version = projectVersion
+    group = projectGroup
 
-    replace('@NAME@', projectName)
-    replace('@VERSION@': projectVersion)
-    replace('@MODID@', projectId)
-
-    mappings = findProperty("mappings")
-    makeObfSourceJar = Boolean.valueOf(makeSourceJar)
-}
-
-configurations {
-    /* Creates an extra dependency configuration that implements `implementation`, */
-    /* to be used later to shade libraries. */
-
-    shade
-    implementation.extendsFrom(shade)
-}
-
-apply from: "gradle/resources.gradle"
-apply from: "dependencies.gradle"
-
-jar {
-    enabled = false
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-
-    manifest.attributes(
-            'ModSide': 'CLIENT',
-            'ForceLoadAsMod': true
-    )
-
-    def tweaker = findProperty("tweaker")
-    if (tweaker != null && !tweaker.toString().isEmpty()) {
-        manifest.attributes(
-                'TweakClass': tweaker
-        )
+    configurations {
+        shade
+        implementation.extendsFrom(shade)
     }
-}
 
-shadowJar {
-    archiveClassifier.set(findProperty("classifier"))
-    configurations = [project.configurations.shade]
-    duplicatesStrategy DuplicatesStrategy.EXCLUDE
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
 
-    exclude 'LICENSE.md'
-    exclude 'pack.mcmeta'
-    exclude 'dummyThing'
-    exclude '**/module-info.class'
-    exclude '*.so'
-    exclude '*.dylib'
-    exclude '*.dll'
-    exclude '*.jnilib'
-    exclude 'ibxm/**'
-    exclude 'com/jcraft/**'
-    exclude 'org/lwjgl/**'
-    exclude 'net/java/**'
+    jar {
+        enabled = false
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
 
-    exclude 'META-INF/proguard/**'
-    exclude 'META-INF/maven/**'
-    exclude 'META-INF/versions/**'
-    exclude 'META-INF/com.android.tools/**'
-
-    exclude 'fabric.mod.json'
-}
-
-reobf {
     shadowJar {
-        classpath = sourceSets.main.compileClasspath
-    }
-}
+        archiveClassifier.set('')
+        configurations = [project.configurations.shade]
+        duplicatesStrategy DuplicatesStrategy.EXCLUDE
 
-reobfJar.dependsOn(shadowJar)
+        exclude 'LICENSE.md'
+        exclude 'pack.mcmeta'
+        exclude 'dummyThing'
+        exclude '**/module-info.class'
+        exclude '*.so'
+        exclude '*.dylib'
+        exclude '*.dll'
+        exclude '*.jnilib'
+        exclude 'ibxm/**'
+        exclude 'com/jcraft/**'
+        exclude 'org/lwjgl/**'
+        exclude 'net/java/**'
+
+        exclude 'META-INF/proguard/**'
+        exclude 'META-INF/maven/**'
+        exclude 'META-INF/versions/**'
+        exclude 'META-INF/com.android.tools/**'
+
+        exclude 'fabric.mod.json'
+    }
+
+    jar.finalizedBy(shadowJar)
+}

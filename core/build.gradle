@@ -1,0 +1,5 @@
+dependencies {
+    shade('xyz.deftu.eventbus:SimpleEventBus:1.0.1')
+    shade('xyz.deftu.deftils:Deftils:1.2.1')
+    shade('com.github.ben-manes.caffeine:caffeine:2.9.3')
+}
