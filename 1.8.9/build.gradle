@@ -1,0 +1,63 @@
+buildscript {
+    repositories {
+        maven {
+            url = "https://maven.minecraftforge.net/"
+        }
+        maven {
+            url = "https://jitpack.io/"
+        }
+        maven {
+            url = "https://repo.spongepowered.org/maven/"
+        }
+    }
+    dependencies {
+        classpath("com.github.ReplayMod:ForgeGradle:ceb83c0:all")
+        classpath("dev.isXander:MixinGradle:0.6-SNAPSHOT")
+    }
+}
+
+apply plugin: "net.minecraftforge.gradle.forge"
+apply plugin: "org.spongepowered.mixin"
+
+minecraft {
+    version = "1.8.9-11.15.1.2318-1.8.9"
+    mappings = "stable_22"
+
+    runDir = "run"
+}
+
+repositories {
+    maven {
+        name = "SpongePowered"
+        url = "https://repo.spongepowered.org/maven/"
+    }
+}
+
+dependencies {
+    shade(project(path: ":core", configuration: "default"))
+
+    shade("org.spongepowered:mixin:0.7.11-SNAPSHOT")
+    annotationProcessor("org.spongepowered:mixin:0.7.11-SNAPSHOT")
+}
+
+mixin {
+    disableRefMapWarning = true
+    add(sourceSets.main, "mixins.incrie.refmap.json")
+}
+
+sourceSets {
+    main {
+        ext.refMap = "mixins.incrie.refmap.json"
+    }
+}
+
+task moveResources {
+    doLast {
+        try {
+            ant.move file: "${buildDir}/resources/main", todir: "${buildDir}/classes/java"
+        } catch (Exception ignored) {
+        }
+    }
+}
+
+classes.dependsOn(moveResources)

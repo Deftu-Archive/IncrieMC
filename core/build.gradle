@@ -1,5 +1,32 @@
+apply plugin: "com.github.gmazzo.buildconfig"
+
+buildConfig {
+    className("${projectName}Info")
+    packageName("${projectGroup}.core")
+
+    buildConfigField("String", "NAME", "\"${projectName}\"")
+    buildConfigField("String", "ID", "\"${projectId}\"")
+    buildConfigField("String", "VERSION", "\"${projectVersion}\"")
+}
+
 dependencies {
-    shade('xyz.deftu.eventbus:SimpleEventBus:1.0.1')
-    shade('xyz.deftu.deftils:Deftils:1.2.1')
-    shade('com.github.ben-manes.caffeine:caffeine:2.9.3')
+    shade("xyz.deftu.eventbus:SimpleEventBus:1.0.1")
+    shade("xyz.deftu.deftils:Deftils:1.2.1")
+    shade("com.github.ben-manes.caffeine:caffeine:2.9.3")
+
+    shade("org.kodein.di:kodein-di-generic-jvm:5.0.1")
+    shade("org.kodein.di:kodein-di:7.10.0")
+
+    implementation('org.apache.logging.log4j:log4j-api:2.15.0')
+    implementation('org.apache.logging.log4j:log4j-core:2.15.0')
+    implementation('org.apache.logging.log4j:log4j-slf4j18-impl:2.15.0')
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
 }
