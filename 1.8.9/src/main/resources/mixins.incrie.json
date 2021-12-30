@@ -3,6 +3,7 @@
     "required": true,
     "compatibilityLevel": "JAVA_8",
     "package": "xyz.incrie.mixins",
+    "minVersion": "0.6.4",
     "mixins": [
         "MinecraftMixin"
     ]

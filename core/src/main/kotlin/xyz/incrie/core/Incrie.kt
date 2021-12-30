@@ -1,37 +1,53 @@
 package xyz.incrie.core
 
 import org.apache.logging.log4j.Logger
-import org.kodein.di.*
-import xyz.deftu.eventbus.EventPriority
-import xyz.deftu.eventbus.SimpleEventBus
-import xyz.deftu.eventbus.SubscribeEvent
-import xyz.deftu.eventbus.SubscriberDepth
+import xyz.deftu.eventbus.*
 import xyz.incrie.core.events.IncrieInitializationEvent
+import xyz.incrie.core.notifications.Notifications
+import java.util.*
 
 interface Incrie {
 
-    fun initialize(event: IncrieInitializationEvent)
+    fun onInitialization(event: IncrieInitializationEvent)
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    fun init(event: IncrieInitializationEvent) {
-        initialize(event)
+    fun initialize(event: IncrieInitializationEvent) {
+        onInitialization(event)
     }
 
     fun logger(): Logger
+
     fun eventBus(): SimpleEventBus
+    fun notifications(): Notifications
 
     companion object {
-        var instance: Incrie
+        var loader: ClassLoader? = null
+            @JvmStatic set(value) {
+                if (field != null)
+                    throw IllegalStateException("Cannot set loader after it has already been set.")
+                field = value
+            }
+        lateinit var instance: Incrie
+            @JvmStatic get
             private set
 
-        init {
-            val di = BaseIncrieDI()
-            val directAware = di.direct
-            val directDi = directAware.directDI
-            instance = directDi.instance(org.kodein.di.generic.)
+        @JvmStatic fun initialize() {
+            val service = ServiceLoader.load(Incrie::class.java, loader)
+            val iterator = service.iterator()
+            if (iterator.hasNext()) {
+                instance = iterator.next()
+                if (iterator.hasNext()) {
+                    throw IllegalStateException("There is more than one implementation of Incrie, this is not supported.")
+                }
+            } else {
+                throw IllegalStateException("Failed to find implementation of Incrie.")
+            }
+
             instance.eventBus().register(instance, SubscriberDepth.SUPER)
         }
 
         @JvmStatic fun getLogger() = instance.logger()
+
         @JvmStatic fun getEventBus() = instance.eventBus()
+        @JvmStatic fun getNotifications() = instance.notifications()
     }
 }

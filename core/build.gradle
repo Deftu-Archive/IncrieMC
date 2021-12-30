@@ -18,9 +18,7 @@ dependencies {
     shade("com.github.ben-manes.caffeine:caffeine:${caffeineVersion}")
     shade api("com.squareup.okhttp3:okhttp:${okHttpVersion}")
 
-    shade("org.kodein.di:kodein-di-generic-jvm:${kodeinJvmGenericVersion}")
-    shade("org.kodein.di:kodein-di:${kodeinVersion}")
-
+    implementation("gg.essential:elementa-1.8.9-forge:${elementaVersion}")
     implementation("org.spongepowered:mixin:0.7.11-SNAPSHOT")
 
     implementation("org.apache.logging.log4j:log4j-api:2.16.0")
