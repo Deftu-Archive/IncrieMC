@@ -13,17 +13,23 @@ buildscript {
 apply plugin: "net.minecraftforge.gradle.forge"
 apply plugin: "org.spongepowered.mixin"
 
+sourceCompatibility = targetCompatibility = "1.8"
+compileJava.options.encoding = "UTF-8"
+compileKotlin.kotlinOptions.languageVersion = "1.6"
+compileKotlin.kotlinOptions.jvmTarget = "1.8"
+
 minecraft {
     version = "1.8.9-11.15.1.2318-1.8.9"
     mappings = "stable_22"
-    runDir = "run"
 
+    runDir = "run"
     clientRunArgs += "--tweakClass xyz.incrie.DevTweaker"
 }
 
 dependencies {
     shade(project(path: ":core", configuration: "default"))
 
+    shade("org.spongepowered:mixin:0.7.11-SNAPSHOT")
     annotationProcessor("org.spongepowered:mixin:0.7.11-SNAPSHOT")
     shade("gg.essential:elementa-1.8.9-forge:${elementaVersion}")
 }
@@ -37,6 +43,15 @@ sourceSets {
     main {
         ext.refMap = "mixins.incrie.refmap.json"
     }
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("mcmod.info") {
+        expand "version": project.version
+    }
+    rename '(.+_at.cfg)', 'META-INF/$1'
 }
 
 task moveResources {

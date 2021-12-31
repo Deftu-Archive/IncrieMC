@@ -8,7 +8,7 @@ import xyz.incrie.core.events.KeyboardInputEvent
 import xyz.incrie.core.events.MouseInputEvent
 import xyz.incrie.core.events.RenderTickEvent
 
-class IncrieForgeEvents {
+class IncrieInternalForgeListener {
 
     @SubscribeEvent
     private fun onRenderTick(event: TickEvent.RenderTickEvent) {

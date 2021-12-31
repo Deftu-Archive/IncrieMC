@@ -19,11 +19,6 @@ allprojects {
     version = projectVersion
     group = projectGroup
 
-    sourceCompatibility = targetCompatibility = "1.8"
-    compileJava.options.encoding = "UTF-8"
-    compileKotlin.kotlinOptions.languageVersion = "1.6"
-    compileKotlin.kotlinOptions.jvmTarget = "1.8"
-
     configurations {
         shade
         implementation.extendsFrom(shade)

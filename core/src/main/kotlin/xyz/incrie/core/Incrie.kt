@@ -41,8 +41,6 @@ interface Incrie {
             } else {
                 throw IllegalStateException("Failed to find implementation of Incrie.")
             }
-
-            instance.eventBus().register(instance, SubscriberDepth.SUPER)
         }
 
         @JvmStatic fun getLogger() = instance.logger()
