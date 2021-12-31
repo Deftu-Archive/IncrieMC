@@ -9,7 +9,7 @@ interface Notifications {
         description: String,
         alignment: NotificationAlignment,
         theme: IncrieTheme
-    ) = post(Notification())
+    ) = post(Notification(title, description, alignment, theme))
     fun post(
         title: String,
         description: String,

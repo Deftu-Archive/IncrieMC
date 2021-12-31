@@ -18,17 +18,20 @@ public class MinecraftMixin {
 
     @Unique private final Logger incrieLogger = LogManager.getLogger(IncrieInfo.NAME);
 
-    @Inject(method = "run", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;startGame()V", shift = At.Shift.BEFORE))
-    private void onGameCreated(CallbackInfo ci) {
-        Incrie.setLoader(Launch.classLoader);
-        Incrie.initialize();
-    }
-
     @Inject(method = "startGame", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/particle/EffectRenderer;<init>(Lnet/minecraft/world/World;Lnet/minecraft/client/renderer/texture/TextureManager;)V"))
     private void onGameStarted(CallbackInfo ci) {
-        incrieLogger.info("Posting IncrieInitializationEvent...");
-        Incrie.getEventBus().post(new IncrieInitializationEvent(Incrie.getInstance()));
-        incrieLogger.info("Posted IncrieInitializationEvent");
+        incrieLogger.debug("Setting Incrie class-loader.");
+        Incrie.setLoader(Launch.classLoader);
+        incrieLogger.debug("Incrie class-loader set.");
+
+        incrieLogger.debug("Initializing Incrie default service.");
+        Incrie.initialize();
+        incrieLogger.debug("Incrie default service initialized.");
+
+        incrieLogger.debug("Posting IncrieInitializationEvent...");
+        Incrie.getInstance().initialize(new IncrieInitializationEvent(Incrie.getInstance()));
+        //Incrie.getEventBus().post(new IncrieInitializationEvent(Incrie.getInstance()));
+        incrieLogger.debug("Posted IncrieInitializationEvent");
     }
 
 }

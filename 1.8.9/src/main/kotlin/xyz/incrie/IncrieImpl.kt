@@ -1,5 +1,6 @@
 package xyz.incrie
 
+import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Mod
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -9,6 +10,8 @@ import xyz.incrie.core.Incrie
 import xyz.incrie.core.IncrieInfo
 import xyz.incrie.core.events.IncrieInitializationEvent
 import xyz.incrie.core.notifications.Notifications
+import xyz.incrie.gui.IncrieHud
+import xyz.incrie.notifications.NotificationsImpl
 
 @Mod(
     name = IncrieInfo.NAME,
@@ -17,16 +20,18 @@ import xyz.incrie.core.notifications.Notifications
 )
 class IncrieImpl : Incrie {
 
-    private lateinit var logger: Logger
+    private val logger = LogManager.getLogger(IncrieInfo.NAME)
+    private val eventBus = SimpleEventBus()
 
-    private lateinit var eventBus: SimpleEventBus
-    private lateinit var notifications: Notifications
+    lateinit var internalHud: IncrieHud
+    lateinit var notifications: Notifications
 
     override fun onInitialization(event: IncrieInitializationEvent) {
-        logger = LogManager.getLogger(IncrieInfo.NAME)
         logger.info("Started Incrie.")
 
-        eventBus = SimpleEventBus()
+        internalHud = IncrieHud(this).also { it.initialize() }
+        notifications = NotificationsImpl(this)
+        MinecraftForge.EVENT_BUS.register(IncrieForgeEvents())
     }
 
     override fun logger() = logger

@@ -4,7 +4,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import xyz.deftu.eventbus.SubscribeEvent;
 import xyz.incrie.core.Incrie;
-import xyz.incrie.core.notifications.NotificationAlignment;
+import xyz.incrie.core.gui.IncrieTheme;
+import xyz.incrie.core.gui.IncrieThemeBuilder;
 
 import java.awt.*;
 
@@ -26,7 +27,7 @@ public class Test {
         Incrie.getEventBus().register(this);
     }
 
-    @SubscribeEvent
+/*    @SubscribeEvent
     private void onChatSent(ChatMessageSentEvent event) {
         if (event.message.startsWith(".")) {
             if (event.message.substring(1).equals("notify")) {
@@ -36,6 +37,6 @@ public class Test {
                 Incrie.getNotifications().post("Title 4", "Description 4", NotificationAlignment.TOP_RIGHT, THEME);
             }
         }
-    }
+    }*/
 
 }

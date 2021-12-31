@@ -23,10 +23,9 @@ minecraft {
 
 dependencies {
     shade(project(path: ":core", configuration: "default"))
-    shade("xyz.deftu.eventbus:SimpleEventBus:${simpleEventBusVersion}")
 
-    shade("gg.essential:elementa-1.8.9-forge:${elementaVersion}")
     annotationProcessor("org.spongepowered:mixin:0.7.11-SNAPSHOT")
+    shade("gg.essential:elementa-1.8.9-forge:${elementaVersion}")
 }
 
 mixin {

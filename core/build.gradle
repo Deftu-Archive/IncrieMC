@@ -18,8 +18,16 @@ dependencies {
     shade("com.github.ben-manes.caffeine:caffeine:${caffeineVersion}")
     shade api("com.squareup.okhttp3:okhttp:${okHttpVersion}")
 
-    implementation("gg.essential:elementa-1.8.9-forge:${elementaVersion}")
     implementation("org.spongepowered:mixin:0.7.11-SNAPSHOT")
+    implementation("gg.essential:elementa-1.8.9-forge:${elementaVersion}") {
+        exclude module: 'kotlin-stdlib-jdk8'
+        exclude module: 'kotlin-reflect'
+        exclude module: 'minecraft'
+        exclude module: 'yarn'
+        exclude module: 'fabric-loader'
+        exclude module: 'fabric-api'
+        exclude module: 'forge'
+    }
 
     implementation("org.apache.logging.log4j:log4j-api:2.16.0")
     implementation("org.apache.logging.log4j:log4j-core:2.17.0")

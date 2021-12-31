@@ -6,10 +6,6 @@ plugins {
     id "java"
 }
 
-version = projectVersion
-group = projectGroup
-archivesBaseName = projectName
-
 sourceCompatibility = targetCompatibility = "1.8"
 compileJava.options.encoding = "UTF-8"
 compileKotlin.kotlinOptions.languageVersion = "1.6"
@@ -24,6 +20,9 @@ allprojects {
     group = projectGroup
 
     sourceCompatibility = targetCompatibility = "1.8"
+    compileJava.options.encoding = "UTF-8"
+    compileKotlin.kotlinOptions.languageVersion = "1.6"
+    compileKotlin.kotlinOptions.jvmTarget = "1.8"
 
     configurations {
         shade
@@ -42,33 +41,38 @@ allprojects {
 
     jar {
         enabled = false
+        from "LICENSE"
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        exclude("META-INF/INDEX.LIST", "META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA", "module-info.class")
     }
 
     shadowJar {
-        archiveClassifier.set('')
+        archiveClassifier.set("")
         configurations = [project.configurations.shade]
         duplicatesStrategy DuplicatesStrategy.EXCLUDE
 
-        exclude 'LICENSE.md'
-        exclude 'pack.mcmeta'
-        exclude 'dummyThing'
-        exclude '**/module-info.class'
-        exclude '*.so'
-        exclude '*.dylib'
-        exclude '*.dll'
-        exclude '*.jnilib'
-        exclude 'ibxm/**'
-        exclude 'com/jcraft/**'
-        exclude 'org/lwjgl/**'
-        exclude 'net/java/**'
+        exclude("pack.mcmeta")
+        exclude("dummyThing")
+        exclude("**/module-info.class")
+        exclude("*.so")
+        exclude("*.dylib")
+        exclude("*.dll")
+        exclude("*.jnilib")
+        exclude("ibxm/**")
+        exclude("com/jcraft/**")
+        exclude("org/lwjgl/**")
+        exclude("net/java/**")
 
-        exclude 'META-INF/proguard/**'
-        exclude 'META-INF/maven/**'
-        exclude 'META-INF/versions/**'
-        exclude 'META-INF/com.android.tools/**'
+        exclude("META-INF/proguard/**")
+        exclude("META-INF/maven/**")
+        exclude("META-INF/versions/**")
+        exclude("META-INF/com.android.tools/**")
 
-        exclude 'fabric.mod.json'
+        exclude('**/*.kotlin_metadata')
+        exclude('**/*.kotlin_module')
+        exclude('**/*.kotlin_builtins')
+
+        exclude("fabric.mod.json")
     }
 
     jar.finalizedBy(shadowJar)
