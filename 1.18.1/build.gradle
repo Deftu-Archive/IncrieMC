@@ -1,0 +1,25 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name = "Fabric"
+            url = "https://maven.fabricmc.net/"
+        }
+    }
+    dependencies {
+        classpath("net.fabricmc:fabric-loom:0.10-SNAPSHOT")
+    }
+}
+
+apply plugin: "fabric-loom"
+
+dependencies {
+    shade(project(
+            path: ":core",
+            configuration: "default"
+    ))
+
+    minecraft("com.mojang:minecraft:1.18.1")
+    mappings("net.fabricmc:yarn:1.18.1+build.1:v2")
+    modImplementation("net.fabricmc:fabric-loader:0.12.12")
+}

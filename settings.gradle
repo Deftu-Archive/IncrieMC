@@ -1,5 +1,5 @@
 rootProject.name = projectName
 include (
         'core',
-        '1.8.9'
+        '1.18.1'
 )

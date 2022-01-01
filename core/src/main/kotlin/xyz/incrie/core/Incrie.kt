@@ -20,18 +20,12 @@ interface Incrie {
     fun notifications(): Notifications
 
     companion object {
-        var loader: ClassLoader? = null
-            @JvmStatic set(value) {
-                if (field != null)
-                    throw IllegalStateException("Cannot set loader after it has already been set.")
-                field = value
-            }
         lateinit var instance: Incrie
             @JvmStatic get
             private set
 
         @JvmStatic fun initialize() {
-            val service = ServiceLoader.load(Incrie::class.java, loader)
+            val service = ServiceLoader.load(Incrie::class.java)
             val iterator = service.iterator()
             if (iterator.hasNext()) {
                 instance = iterator.next()
@@ -41,6 +35,8 @@ interface Incrie {
             } else {
                 throw IllegalStateException("Failed to find implementation of Incrie.")
             }
+
+            instance.eventBus().register(instance, SubscriberDepth.SUPER)
         }
 
         @JvmStatic fun getLogger() = instance.logger()
