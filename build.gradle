@@ -3,8 +3,13 @@ plugins {
     id "com.github.gmazzo.buildconfig" version "$buildConfigVersion" apply false
     id "org.jetbrains.kotlin.jvm" version "$kotlinVersion"
     id "maven-publish"
+    id "signing"
     id "java"
 }
+
+archivesBaseName = projectGroup
+group = projectGroup
+version = projectVersion
 
 sourceCompatibility = targetCompatibility = "1.8"
 compileJava.options.encoding = "UTF-8"

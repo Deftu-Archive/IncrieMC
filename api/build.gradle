@@ -1,4 +1,6 @@
 apply plugin: "com.github.gmazzo.buildconfig"
+apply plugin: "maven-publish"
+apply plugin: "signing"
 
 archivesBaseName = projectName
 
@@ -64,6 +66,69 @@ java {
     withSourcesJar()
 }
 
-artifacts {
-    archives javadocJar, sourcesJar
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact(shadowJar)
+            artifact(sourcesJar)
+            artifact(javadocJar)
+
+            groupId = projectGroup
+            artifactId = projectName
+            version = projectVersion
+
+            pom {
+                name = projectName
+                description = projectDescription
+                url = projectGit
+
+                licenses {
+                    license {
+                        name = "GNU LESSER GENERAL PUBLIC LICENSE, Version 3"
+                        url = "https://www.gnu.org/licenses/lgpl-3.0.en.html"
+                    }
+                }
+
+                developers {
+                    /* Define Incrie developer team here! <3 */
+                    developer {
+                        id = "deftu"
+                        name = "Deftu"
+                        email = "deftudev@gmail.com"
+                    }
+                }
+
+                scm {
+                    url = projectGit
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            name = "MavenCentral"
+            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials {
+                username = findProperty("publishing.mavencentral.username")
+                password = findProperty("publishing.mavencentral.password")
+            }
+        }
+    }
 }
+
+artifacts {
+    archives(javadocJar, sourcesJar)
+}
+
+signing {
+    String password = findProperty("signing.password")
+    if (password != null) {
+        sign publishing.publications.mavenJava
+        sign configurations.archives
+    } else {
+        System.out.println("Signing is unavailable.")
+    }
+}
+
+classes.dependsOn(processResources)
