@@ -18,8 +18,8 @@ public class MouseMixin {
     @Shadow private double y;
     @Shadow @Final private MinecraftClient client;
 
-    @Inject(method = "onMouseButton", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/KeyBinding;setKeyPressed(Lnet/minecraft/client/util/InputUtil$Key;Z)V", shift = At.Shift.AFTER))
-    private void onClick(long window, int button, int action, int mods, CallbackInfo ci) {
+    @Inject(method = "onMouseButton", at = @At(value = "JUMP", ordinal = 18))
+    private void incrie$onMouseInput(long window, int button, int action, int mods, CallbackInfo ci) {
         double d = x * (double) client.getWindow().getScaledWidth() / (double) client.getWindow().getWidth();
         double e = y * (double) client.getWindow().getScaledHeight() / (double) client.getWindow().getHeight();
         Incrie.getEventBus().post(new MouseButtonEvent(button, d, e));

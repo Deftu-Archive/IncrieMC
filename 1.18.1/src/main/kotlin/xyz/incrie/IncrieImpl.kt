@@ -1,6 +1,5 @@
 package xyz.incrie
 
-import me.kbrewster.eventbus.Subscribe
 import me.kbrewster.eventbus.*
 import me.kbrewster.eventbus.invokers.ReflectionInvoker
 import org.apache.logging.log4j.LogManager
@@ -22,8 +21,8 @@ class IncrieImpl : Incrie {
     lateinit var internalHud: IncrieInternalHud
     lateinit var notifications: Notifications
 
-    @Subscribe
     override fun onInitialization(event: IncrieInitializationEvent) {
+        logger.info("Hello Incrie!")
         internalHud = IncrieInternalHud(this).also { it.initialize() }
         notifications = NotificationsImpl(internalHud.window)
     }

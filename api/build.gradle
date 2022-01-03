@@ -43,6 +43,20 @@ dependencies {
     implementation("org.apache.logging.log4j:log4j-core:2.17.0")
 }
 
+processResources {
+    inputs.property("name", projectName)
+    inputs.property("id", projectId)
+    inputs.property("version", projectVersion)
+
+    filesMatching("fabric.mod.json") {
+        expand(
+                "name": projectName,
+                "id": projectId,
+                "version": projectVersion
+        )
+    }
+}
+
 java {
     withJavadocJar()
     withSourcesJar()

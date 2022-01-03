@@ -13,10 +13,16 @@ buildscript {
 
 apply plugin: "fabric-loom"
 
+repositories {
+    maven { url "https://maven.terraformersmc.com/releases/" }
+}
+
 dependencies {
     minecraft("com.mojang:minecraft:1.18.1")
     mappings("net.fabricmc:yarn:1.18.1+build.1:v2")
     modImplementation("net.fabricmc:fabric-loader:0.12.12")
+
+    modImplementation("com.terraformersmc:modmenu:3.0.1")
 
     modImplementation(include("gg.essential:universalcraft-1.18-fabric:${universalCraftVersion}"))
     modImplementation(include("gg.essential:elementa-1.18-fabric:${elementaVersion}"))
@@ -25,6 +31,8 @@ dependencies {
             configuration: "default"
     )) {
         exclude module: "mixin"
+        exclude module: "universalcraft-1.18-fabric"
+        exclude module: "elementa-1.18-fabric"
     }
 }
 
@@ -32,12 +40,14 @@ processResources {
     inputs.property("name", projectName)
     inputs.property("id", projectId)
     inputs.property("version", projectVersion)
+    inputs.property("mcversion", "1.18.1")
 
     filesMatching("fabric.mod.json") {
         expand(
                 "name": projectName,
                 "id": projectId,
-                "version": projectVersion
+                "version": projectVersion,
+                "mcversion": "1.18.1"
         )
     }
 }

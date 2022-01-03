@@ -1,0 +1,10 @@
+{
+    "schemaVersion": 1,
+    "name": "${name} API",
+    "id": "${id}-api",
+    "version": "${version}",
+    "icon": "logo.png",
+    "description": "Simply utility for mod developers.",
+    "license": "LGPL-3.0",
+    "environment": "client"
+}
