@@ -22,7 +22,6 @@ class IncrieImpl : Incrie {
     lateinit var notifications: Notifications
 
     override fun onInitialization(event: IncrieInitializationEvent) {
-        logger.info("Hello Incrie!")
         internalHud = IncrieInternalHud(this).also { it.initialize() }
         notifications = NotificationsImpl(internalHud.window).also { it.initialize() }
     }
