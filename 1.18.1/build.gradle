@@ -26,14 +26,16 @@ dependencies {
 
     modImplementation(include("gg.essential:universalcraft-1.18-fabric:${universalCraftVersion}"))
     modImplementation(include("gg.essential:elementa-1.18-fabric:${elementaVersion}"))
-    shade(project(
-            path: ":api",
-            configuration: "default"
-    )) {
+    shade(project(":api")) {
         exclude module: "mixin"
         exclude module: "universalcraft-1.18-fabric"
         exclude module: "elementa-1.18-fabric"
+        exclude module: "log4j-api"
+        exclude module: "log4j-core"
     }
+
+    /* Unresolved because of Gradle issues. */
+    implementation("com.github.KevinPriv:keventbus:${eventBusVersion}")
 }
 
 processResources {
@@ -50,4 +52,8 @@ processResources {
                 "mcversion": "1.18.1"
         )
     }
+}
+
+java {
+    withSourcesJar()
 }
