@@ -15,9 +15,9 @@ import java.util.function.Consumer
 class Notification(
     title: String,
     description: String,
-    private val alignment: NotificationAlignment,
-    private val theme: IncrieTheme,
-    private val clickOperation: Consumer<Notification>
+    val alignment: NotificationAlignment,
+    val theme: IncrieTheme,
+    val clickOperation: Consumer<Notification>
 ) : UIBlock(
     theme.getSecondary().toConstraint()
 ) {
@@ -30,8 +30,8 @@ class Notification(
 
     init {
         constrain {
-            x = if (alignment.verticalStartPoint == null) (-10).pixels(alignment.oppositeStart) else alignment.getX()
-            y = if (alignment.verticalStartPoint == null) alignment.getY() else (-10).pixels(alignment.verticalStartPoint == NotificationAlignment.VerticalStartPoint.BOTTOM)
+            x = if (alignment.verticalStartPoint == null) 0.pixels(alignment.oppositeStart, true) else alignment.getX()
+            y = if (alignment.verticalStartPoint == null) alignment.getY() else 0.pixels(alignment.verticalStartPoint == NotificationAlignment.VerticalStartPoint.BOTTOM, true)
             width = WIDTH.pixels()
             height = HEIGHT.pixels()
         }
@@ -48,7 +48,7 @@ class Notification(
             unhighlight()
         }.onMouseClick {
             clickOperation.accept(this@Notification)
-            close()
+            animateOut()
         }
 
         val titleText = UIWrappedText("${ChatColor.BOLD}$title").constrain {
@@ -110,7 +110,7 @@ class Notification(
                 DURATION,
                 FillConstraint()
             ).onComplete {
-                close()
+                animateOut()
             }
         }
     }
@@ -127,7 +127,7 @@ class Notification(
                 setYAnimation(
                     Animations.IN_OUT_QUAD,
                     MOVEMENT_DURATION,
-                    (-10).pixels(alignment.verticalStartPoint == NotificationAlignment.VerticalStartPoint.BOTTOM, true)
+                    0.pixels(alignment.verticalStartPoint == NotificationAlignment.VerticalStartPoint.BOTTOM, true)
                 )
             }
 
@@ -135,10 +135,6 @@ class Notification(
                 hide(true)
             }
         }
-    }
-
-    fun close() {
-        animateOut()
     }
 
     companion object {

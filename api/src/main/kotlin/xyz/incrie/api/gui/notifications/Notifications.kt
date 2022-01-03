@@ -4,6 +4,7 @@ import xyz.incrie.api.gui.IncrieTheme
 import java.util.function.Consumer
 
 interface Notifications {
+    fun initialize()
     fun post(notification: Notification)
     fun post(
         title: String,

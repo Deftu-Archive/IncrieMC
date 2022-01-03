@@ -24,7 +24,7 @@ class IncrieImpl : Incrie {
     override fun onInitialization(event: IncrieInitializationEvent) {
         logger.info("Hello Incrie!")
         internalHud = IncrieInternalHud(this).also { it.initialize() }
-        notifications = NotificationsImpl(internalHud.window)
+        notifications = NotificationsImpl(internalHud.window).also { it.initialize() }
     }
 
     override fun logger() = logger
