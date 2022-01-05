@@ -2,10 +2,13 @@ package xyz.incrie.api
 
 import me.kbrewster.eventbus.EventBus
 import me.kbrewster.eventbus.Subscribe
+import okhttp3.OkHttpClient
 import org.apache.logging.log4j.Logger
 import xyz.incrie.api.events.IncrieInitializationEvent
 import xyz.incrie.api.events.IncriePostInitializationEvent
 import xyz.incrie.api.gui.notifications.Notifications
+import xyz.incrie.api.http.HttpRequester
+import xyz.incrie.api.utils.JsonHelper
 import java.util.*
 
 interface Incrie {
@@ -15,6 +18,9 @@ interface Incrie {
     fun logger(): Logger
     fun eventBus(): EventBus
 
+    fun jsonHelper(): JsonHelper
+    fun httpClient(): OkHttpClient
+    fun httpRequester(): HttpRequester
     fun notifications(): Notifications
 
     companion object {
@@ -68,8 +74,11 @@ interface Incrie {
         }
 
         @JvmStatic fun getLogger() = instanceOr().logger()
-
         @JvmStatic fun getEventBus() = instanceOr().eventBus()
+
+        @JvmStatic fun getJsonHelper() = instanceOr().jsonHelper()
+        @JvmStatic fun getHttpClient() = instanceOr().httpClient()
+        @JvmStatic fun getHttpRequester() = instanceOr().httpRequester()
         @JvmStatic fun getNotifications() = instanceOr().notifications()
     }
 }

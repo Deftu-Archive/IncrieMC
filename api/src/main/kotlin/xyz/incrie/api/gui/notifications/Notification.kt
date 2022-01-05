@@ -13,11 +13,11 @@ import xyz.incrie.api.gui.IncrieTheme
 import java.util.function.Consumer
 
 class Notification(
-    title: String,
-    description: String,
+    val title: String,
+    val description: String,
     val alignment: NotificationAlignment,
-    private val theme: IncrieTheme,
-    private val clickOperation: Consumer<Notification>
+    val theme: IncrieTheme,
+    val clickOperation: Consumer<Notification>
 ) : UIBlock(
     theme.getSecondary().toConstraint()
 ) {
@@ -51,15 +51,16 @@ class Notification(
             animateOut()
         }
 
-        val titleText = UIWrappedText("${ChatColor.BOLD}$title").constrain {
+        val titleText = UIWrappedText(title).constrain {
             x = 2.pixels()
             y = 2.pixels()
-            width = FillConstraint() - 2.pixels()
+            width = RelativeConstraint() - 10.pixels()
+            textScale = 1.3f.pixels()
         } childOf this
         val descriptionText = UIWrappedText(description).constrain {
             x = 2.pixels()
             y = SiblingConstraint(2f)
-            width = FillConstraint() - 2.pixels()
+            width = RelativeConstraint() - 8.pixels()
         } childOf this
     }
 
@@ -110,7 +111,7 @@ class Notification(
             setWidthAnimation(
                 PROGRESS_ANIMATION,
                 DURATION,
-                FillConstraint()
+                RelativeConstraint()
             )
 
             onComplete {
@@ -142,8 +143,8 @@ class Notification(
     }
 
     companion object {
-        @JvmStatic val WIDTH = 150
-        @JvmStatic val HEIGHT = 55
+        @JvmStatic val WIDTH = 175
+        @JvmStatic val HEIGHT = 75
         @JvmStatic val MOVEMENT_ANIMATION = Animations.IN_OUT_QUAD
         @JvmStatic val MOVEMENT_DURATION = 0.75f
         @JvmStatic val PROGRESS_ANIMATION = Animations.LINEAR

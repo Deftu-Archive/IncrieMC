@@ -26,8 +26,9 @@ class NotificationsImpl(private val window: Window) : Notifications {
 
         container.children.addObserver { _, event ->
             if (event is ObservableRemoveEvent<*>) {
-                if (event.element.value != null && event.element.value is Notification) {
-                    val queued = queue[(event.element.value as Notification).alignment]!!.poll()
+                val element = event.element
+                if (element.value != null && element.value is Notification) {
+                    val queued = queue[(element.value as Notification).alignment]!!.poll()
                     if (queued != null) post(queued)
                 }
             }
@@ -35,7 +36,7 @@ class NotificationsImpl(private val window: Window) : Notifications {
     }
 
     override fun post(notification: Notification) {
-        if (container.childrenOfType(Notification::class.java).isEmpty()) {
+        if (container.childrenOfType(Notification::class.java).filter { it.alignment == notification.alignment }.isEmpty()) {
             notification childOf container
         } else {
             queue[notification.alignment]!!.add(notification)

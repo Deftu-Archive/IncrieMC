@@ -28,7 +28,7 @@ public class MouseMixin {
 
         MouseButtonEvent event = new MouseButtonEvent(
                 button, /* The button clicked */
-                action == GLFW.GLFW_MOUSE_BUTTON_2, /* The state of the mouse button, GLFW_MOUSE_BUTTON_2 is the equivalent of it being released for this input action. */
+                action == GLFW.GLFW_RELEASE, /* The state of the mouse button, GLFW_MOUSE_BUTTON_2 is the equivalent of it being released for this input action. */
                 d, /* The X location of the mouse pointer. */
                 e/* The Y location of the mouse pointer. */
         );

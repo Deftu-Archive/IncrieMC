@@ -30,6 +30,7 @@ dependencies {
     modImplementation(include("gg.essential:elementa-1.18-fabric:${elementaVersion}"))
 
     shade("com.github.KevinPriv:keventbus:${eventBusVersion}")
+    shade("com.squareup.okhttp3:okhttp:${okHttpVersion}")
     shade(project(":api")) {
         exclude module: "mixin"
         exclude module: "universalcraft-1.18-fabric"
