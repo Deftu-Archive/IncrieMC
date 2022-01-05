@@ -16,8 +16,8 @@ class Notification(
     title: String,
     description: String,
     val alignment: NotificationAlignment,
-    val theme: IncrieTheme,
-    val clickOperation: Consumer<Notification>
+    private val theme: IncrieTheme,
+    private val clickOperation: Consumer<Notification>
 ) : UIBlock(
     theme.getSecondary().toConstraint()
 ) {
@@ -54,10 +54,12 @@ class Notification(
         val titleText = UIWrappedText("${ChatColor.BOLD}$title").constrain {
             x = 2.pixels()
             y = 2.pixels()
+            width = FillConstraint() - 2.pixels()
         } childOf this
         val descriptionText = UIWrappedText(description).constrain {
             x = 2.pixels()
             y = SiblingConstraint(2f)
+            width = FillConstraint() - 2.pixels()
         } childOf this
     }
 
@@ -66,7 +68,7 @@ class Notification(
     }
 
     private fun highlight() {
-        val colour = theme.getPrimary().brighter().brighter()
+        val colour = theme.getPrimary().brighter()
         (effects[0] as OutlineEffect)::color.animate(Animations.OUT_EXP, 1f, colour)
         progressBar.animate {
             setColorAnimation(Animations.OUT_EXP, 1f, colour.toConstraint())
@@ -85,13 +87,13 @@ class Notification(
         animate {
             if (alignment.verticalStartPoint == null) {
                 setXAnimation(
-                    Animations.IN_OUT_QUAD,
+                    MOVEMENT_ANIMATION,
                     MOVEMENT_DURATION,
                     alignment.getX()
                 )
             } else {
                 setYAnimation(
-                    Animations.IN_OUT_QUAD,
+                    MOVEMENT_ANIMATION,
                     MOVEMENT_DURATION,
                     alignment.getY()
                 )
@@ -106,10 +108,12 @@ class Notification(
     private fun animateProgress() {
         progressBar.animate {
             setWidthAnimation(
-                Animations.LINEAR,
+                PROGRESS_ANIMATION,
                 DURATION,
                 FillConstraint()
-            ).onComplete {
+            )
+
+            onComplete {
                 animateOut()
             }
         }
@@ -119,13 +123,13 @@ class Notification(
         animate {
             if (alignment.verticalStartPoint == null) {
                 setXAnimation(
-                    Animations.IN_OUT_QUAD,
+                    MOVEMENT_ANIMATION,
                     MOVEMENT_DURATION,
                     0.pixels(alignment.oppositeStart, true)
                 )
             } else {
                 setYAnimation(
-                    Animations.IN_OUT_QUAD,
+                    MOVEMENT_ANIMATION,
                     MOVEMENT_DURATION,
                     0.pixels(alignment.verticalStartPoint == NotificationAlignment.VerticalStartPoint.BOTTOM, true)
                 )
@@ -138,9 +142,11 @@ class Notification(
     }
 
     companion object {
-        @JvmStatic val WIDTH = 165
-        @JvmStatic val HEIGHT = 60
-        @JvmStatic val MOVEMENT_DURATION = 1f
-        @JvmStatic val DURATION = 60f
+        @JvmStatic val WIDTH = 150
+        @JvmStatic val HEIGHT = 55
+        @JvmStatic val MOVEMENT_ANIMATION = Animations.IN_OUT_QUAD
+        @JvmStatic val MOVEMENT_DURATION = 0.75f
+        @JvmStatic val PROGRESS_ANIMATION = Animations.LINEAR
+        @JvmStatic val DURATION = 7.5f
     }
 }

@@ -3,10 +3,11 @@
     "minVersion": "0.8",
     "package": "xyz.incrie.mixins",
     "compatibilityLevel": "JAVA_16",
-    "refmap": "mixins.incrie.refmap.json",
     "client": [
+        "GameRendererMixin",
         "MinecraftClientMixin",
-        "MouseMixin"
+        "MouseMixin",
+        "TitleScreenMixin"
     ],
     "injectors": {
         "defaultRequire": 1

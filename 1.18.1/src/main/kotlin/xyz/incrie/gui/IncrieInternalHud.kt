@@ -3,10 +3,11 @@ package xyz.incrie.gui
 import gg.essential.elementa.ElementaVersion
 import gg.essential.elementa.components.Window
 import gg.essential.universal.UMatrixStack
-import gg.essential.universal.UMinecraft
 import me.kbrewster.eventbus.Subscribe
 import xyz.incrie.api.Incrie
 import xyz.incrie.api.events.MouseButtonEvent
+import xyz.incrie.api.events.MouseRepositionEvent
+import xyz.incrie.api.events.MouseScrollEvent
 import xyz.incrie.api.events.RenderTickEvent
 
 class IncrieInternalHud(val incrie: Incrie) {
@@ -25,6 +26,20 @@ class IncrieInternalHud(val incrie: Incrie) {
 
     @Subscribe
     private fun onMouseInput(event: MouseButtonEvent) {
-        window.mouseClick(event.x, event.y, event.button)
+        if (!event.released) {
+            window.mouseClick(event.x, event.y, event.button)
+        } else {
+            window.mouseRelease()
+        }
+    }
+
+    @Subscribe
+    private fun onMouseScroll(event: MouseScrollEvent) {
+        window.mouseScroll(event.delta)
+    }
+
+    @Subscribe
+    private fun onMouseReposition(event: MouseRepositionEvent) {
+        window.mouseMove(window)
     }
 }

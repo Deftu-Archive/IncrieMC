@@ -1,33 +1,22 @@
 package com.test;
 
+import gg.essential.elementa.components.Window;
+import gg.essential.elementa.components.inspector.Inspector;
 import net.fabricmc.api.ClientModInitializer;
+import net.minecraft.client.MinecraftClient;
+import xyz.incrie.IncrieImpl;
 import xyz.incrie.api.Incrie;
 import xyz.incrie.api.gui.notifications.NotificationAlignment;
 
 public class TestMod implements ClientModInitializer {
     public void onInitializeClient() {
-        Incrie.enqueueInitializationOperation(() -> {
+        Incrie.enqueuePostInitialiationOperation(() -> {
+            Window window = ((IncrieImpl) Incrie.getInstance()).internalHud.getWindow();
+            ((IncrieImpl) Incrie.getInstance()).internalHud.getWindow().addChild(new Inspector(window));
 
             Incrie.getNotifications().post("H6Aus", "19g", NotificationAlignment.BOTTOM, notification -> {
-                System.out.println("I WAS CLICKED! OH GOD THE HUMANITY!");
+                MinecraftClient.getInstance().setScreen(new TestScreen());
             });
-
-            Incrie.getNotifications().post("Bidd", "6t3", NotificationAlignment.BOTTOM, notification -> {
-                System.out.println("NOOOOOOOOOOO!");
-            });
-
-            Incrie.getNotifications().post("XBD2p", "7pz6lwn", NotificationAlignment.BOTTOM, notification -> {
-                System.out.println("SDFGHJGFDGHFDGF!");
-            });
-
-            Incrie.getNotifications().post("YzURy", "63dJ", NotificationAlignment.BOTTOM, notification -> {
-                System.out.println("DSFGHJKHSDR!");
-            });
-
-            Incrie.getNotifications().post("O5TAntW6", "2yS1rtS", NotificationAlignment.BOTTOM, notification -> {
-                System.out.println("NOOOOOOOOOOO!");
-            });
-
         });
     }
 }

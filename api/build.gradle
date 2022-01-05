@@ -74,7 +74,7 @@ publishing {
             artifact(javadocJar)
 
             groupId = projectGroup
-            artifactId = projectName
+            artifactId = "$projectName-API"
             version = projectVersion
 
             pom {
@@ -101,17 +101,6 @@ publishing {
                 scm {
                     url = projectGit
                 }
-            }
-        }
-    }
-
-    repositories {
-        maven {
-            name = "MavenCentral"
-            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-            credentials {
-                username = findProperty("publishing.mavencentral.username")
-                password = findProperty("publishing.mavencentral.password")
             }
         }
     }

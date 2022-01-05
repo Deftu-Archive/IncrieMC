@@ -72,8 +72,6 @@ allprojects {
         exclude('**/*.kotlin_metadata')
         exclude('**/*.kotlin_module')
         exclude('**/*.kotlin_builtins')
-
-        exclude("fabric.mod.json")
     }
 
     jar.finalizedBy(shadowJar)

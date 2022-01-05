@@ -4,6 +4,7 @@ import me.kbrewster.eventbus.EventBus
 import me.kbrewster.eventbus.Subscribe
 import org.apache.logging.log4j.Logger
 import xyz.incrie.api.events.IncrieInitializationEvent
+import xyz.incrie.api.events.IncriePostInitializationEvent
 import xyz.incrie.api.gui.notifications.Notifications
 import java.util.*
 
@@ -17,12 +18,16 @@ interface Incrie {
     fun notifications(): Notifications
 
     companion object {
-        private var initialized = false
+        var initialized = false
+            @JvmStatic get
+            private set
         lateinit var instance: Incrie
             @JvmStatic get
             private set
-        fun instanceOr(): Incrie = if (this::instance.isInitialized) instance else throw IllegalStateException("Incrie has not yet been initialized, please try using Incrie#enqueueInitializationOperation")
+        private fun instanceOr(): Incrie = if (this::instance.isInitialized) instance else throw IllegalStateException("Incrie has not yet been initialized, please try using Incrie#enqueueInitializationOperation")
+
         private val initializationOperations = mutableListOf<Runnable>()
+        private val postInitializationOperations = mutableListOf<Runnable>()
 
         @JvmStatic fun initialize(): Boolean {
             if (!initialized) {
@@ -49,8 +54,17 @@ interface Incrie {
             for (initializationOperation in initializationOperations) initializationOperation.run()
         }
 
+        @Subscribe
+        private fun runPostInitialization(event: IncriePostInitializationEvent) {
+            for (postInitializationOperation in postInitializationOperations) postInitializationOperation.run()
+        }
+
         @JvmStatic fun enqueueInitializationOperation(operation: Runnable) {
             initializationOperations.add(operation)
+        }
+
+        @JvmStatic fun enqueuePostInitialiationOperation(operation: Runnable) {
+            postInitializationOperations.add(operation)
         }
 
         @JvmStatic fun getLogger() = instanceOr().logger()

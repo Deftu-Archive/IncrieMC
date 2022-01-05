@@ -11,7 +11,9 @@ buildscript {
     }
 }
 
+apply plugin: "maven-publish"
 apply plugin: "fabric-loom"
+apply plugin: "groovy"
 
 repositories {
     maven { url "https://maven.terraformersmc.com/releases/" }
@@ -26,6 +28,8 @@ dependencies {
 
     modImplementation(include("gg.essential:universalcraft-1.18-fabric:${universalCraftVersion}"))
     modImplementation(include("gg.essential:elementa-1.18-fabric:${elementaVersion}"))
+
+    shade("com.github.KevinPriv:keventbus:${eventBusVersion}")
     shade(project(":api")) {
         exclude module: "mixin"
         exclude module: "universalcraft-1.18-fabric"
@@ -33,9 +37,6 @@ dependencies {
         exclude module: "log4j-api"
         exclude module: "log4j-core"
     }
-
-    /* Unresolved because of Gradle issues. */
-    implementation("com.github.KevinPriv:keventbus:${eventBusVersion}")
 }
 
 processResources {
@@ -56,4 +57,30 @@ processResources {
 
 java {
     withSourcesJar()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = projectGroup
+            artifactId = "$projectName-1.18.1"
+            version = projectVersion
+
+            artifact(sourcesJar)
+            artifact(shadowJar) {
+                afterEvaluate {
+                    pom {
+                        withXml {
+                            def node = asNode()
+                            node.dependencies."*".findAll() {
+                                return it.artifactId.text() == "api" && it.groupId.text() == projectGroup
+                            }.each() {
+                                it.parent().remove(it)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
