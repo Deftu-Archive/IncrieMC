@@ -1,0 +1,10 @@
+dependencies {
+    shade("com.squareup.okhttp3:okhttp:${okHttpVersion}")
+    shade("commons-io:commons-io:2.11.0")
+    implementation("com.google.code.gson:gson:2.8.9")
+}
+
+shadowJar {
+    relocate("okhttp3", "${projectGroup}.launcher.okhttp")
+    relocate("org.apache.commons.io", "${projectGroup}.launcher.apache.commons.io")
+}

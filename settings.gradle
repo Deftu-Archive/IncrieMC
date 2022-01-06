@@ -1,5 +1,8 @@
 rootProject.name = projectName
 include (
+        'launcher-entrypoint',
+        'launcher',
+
         'api',
         '1.18.1'
 )

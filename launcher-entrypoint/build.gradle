@@ -1,0 +1,37 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name = "Fabric"
+            url = "https://maven.fabricmc.net/"
+        }
+    }
+    dependencies {
+        classpath("net.fabricmc:fabric-loom:0.10-SNAPSHOT")
+    }
+}
+
+apply plugin: "maven-publish"
+apply plugin: "fabric-loom"
+
+dependencies {
+    /* Dependencies required by Fabric Loom. The versions shouldn't matter. */
+    minecraft("com.mojang:minecraft:1.18.1")
+    mappings("net.fabricmc:yarn:1.18.1+build.1:v2")
+    modImplementation("net.fabricmc:fabric-loader:0.12.12")
+
+    /* Dependencies the launcher-entrypoint requires. */
+    implementation(include("com.squareup.okhttp3:okhttp:${okHttpVersion}"))
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = projectGroup
+            artifactId = "$projectName-Launcher"
+            version = projectVersion
+
+            from components.java
+        }
+    }
+}
