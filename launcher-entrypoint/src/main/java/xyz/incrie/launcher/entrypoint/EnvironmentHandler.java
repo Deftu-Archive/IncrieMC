@@ -2,6 +2,10 @@ package xyz.incrie.launcher.entrypoint;
 
 public class EnvironmentHandler {
 
+    public static boolean isLocal() {
+        return Boolean.parseBoolean(System.getProperty("incrie.entry.local", "false"));
+    }
+
     public static String getDownloadUrl() {
         return System.getProperty("incrie.entry.download", "https://raw.githubusercontent.com/Incrie/DataStorage/main/downloads/v1/IncrieLauncher.jar");
     }

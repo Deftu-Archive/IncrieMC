@@ -2,12 +2,12 @@ package xyz.incrie.launcher.entrypoint;
 
 import com.google.gson.JsonObject;
 import net.fabricmc.loader.impl.FabricLoaderImpl;
+import xyz.incrie.launcher.dummy.ClassPathModifier;
+import xyz.incrie.launcher.dummy.ClassPathModifierImpl;
 import xyz.incrie.launcher.dummy.JsonParser;
 import xyz.incrie.launcher.dummy.JsonParserImpl;
 
-import java.io.File;
-import java.net.URL;
-import java.net.URLClassLoader;
+import java.nio.file.Paths;
 
 public class LoadHandler {
 
@@ -15,14 +15,9 @@ public class LoadHandler {
 
     public Runnable start() {
         try {
-            URLClassLoader classLoader = URLClassLoader.newInstance(new URL[] {
-                    new File(EnvironmentHandler.getLauncherPath()).toURI().toURL()
-            }, IncrieSetup.class.getClassLoader());
-            return (Runnable) Class.forName(
-                    EnvironmentHandler.getLauncherClassName(),
-                    true,
-                    classLoader
-            ).getConstructor(JsonObject.class, JsonParser.class).newInstance(createDataJson(), new JsonParserImpl());
+            ClassPathModifier classPathModifier = new ClassPathModifierImpl();
+            classPathModifier.add(Paths.get(EnvironmentHandler.getLauncherPath()));
+            return (Runnable) Class.forName(EnvironmentHandler.getLauncherClassName()).getConstructor(JsonObject.class, JsonParser.class, ClassPathModifier.class).newInstance(createDataJson(), new JsonParserImpl(), classPathModifier);
         } catch (Exception e) {
             throw new RuntimeException("An error occurred loading the Incrie launcher file.", e);
         }

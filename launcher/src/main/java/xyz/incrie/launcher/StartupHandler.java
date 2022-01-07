@@ -6,12 +6,13 @@ public class StartupHandler {
 
     private static StartupHandler INSTANCE;
 
-    public void start(Class<?> clazz) {
+    public void start() {
         try {
+            Class<?> clazz = Class.forName(EnvironmentHandler.getLauncherClassName());
             Method method = clazz.getDeclaredMethod("initialize");
             method.invoke(null);
         } catch (Exception e) {
-            throw new RuntimeException("An error occurred starting Incrie.", e);
+            throw new RuntimeException("An error occurred loading Incrie.", e);
         }
     }
 

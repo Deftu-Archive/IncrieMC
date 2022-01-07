@@ -3,11 +3,8 @@ package xyz.incrie.launcher;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.apache.commons.io.FileUtils;
-import xyz.incrie.launcher.dummy.JsonParser;
 
 import java.io.File;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 
@@ -15,21 +12,10 @@ public class LoadHandler {
 
     private static LoadHandler INSTANCE;
 
-    public Class<?> start(Launcher launcher) {
+    public void start(Launcher launcher) {
         JsonObject versions = retrieveVersions(launcher);
         if (versions == null) throw new IllegalStateException("Could not read local versions JSON.");
-        try {
-            URLClassLoader classLoader = URLClassLoader.newInstance(new URL[] {
-                    Paths.get(EnvironmentHandler.retrieveJarFilePath(launcher.getMajorVersion(), launcher.getGameVersion(), JsonHandler.get(versions, "latest", "version", "current").getAsString())).toUri().toURL()
-            }, Launcher.class.getClassLoader());
-            return Class.forName(
-                    EnvironmentHandler.getLauncherClassName(),
-                    true,
-                    classLoader
-            );
-        } catch (Exception e) {
-            throw new RuntimeException("An error occurred loading the Incrie loader file.", e);
-        }
+        launcher.getClassPathModifier().add(Paths.get(EnvironmentHandler.retrieveJarFilePath(launcher.getMajorVersion(), launcher.getGameVersion(), JsonHandler.get(versions, "latest", "version", "current").getAsString())));
     }
 
     private JsonObject retrieveVersions(Launcher launcher) {
