@@ -1,25 +1,24 @@
-apply plugin: "com.github.gmazzo.buildconfig"
+apply plugin: "net.kyori.blossom"
 apply plugin: "maven-publish"
 apply plugin: "signing"
 
 archivesBaseName = projectName
 
-buildConfig {
-    className("${projectName}Info")
-    packageName("${projectGroup}.api")
-
-    buildConfigField("String", "NAME", "\"${projectName}\"")
-    buildConfigField("String", "ID", "\"${projectId}\"")
-    buildConfigField("String", "VERSION", "\"${projectVersion}\"")
+blossom {
+    def name = "src/main/kotlin/xyz/incrie/api/Incrie.kt"
+    replaceToken("@VERSION@", projectVersion, name)
+    replaceToken("@NAME@", projectName, name)
+    replaceToken("@ID@", projectId, name)
 }
 
 dependencies {
     shade("org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinCoroutinesVersion}")
-    shade("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    shade("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
 
     shade("com.github.KevinPriv:keventbus:${eventBusVersion}")
     shade("xyz.deftu.deftils:Deftils:${deftilsVersion}")
     shade("com.github.ben-manes.caffeine:caffeine:${caffeineVersion}")
+    shade("org.java-websocket:Java-WebSocket:${websocketVersion}")
     shade("com.squareup.okhttp3:okhttp:${okHttpVersion}")
 
     implementation("org.spongepowered:mixin:0.7.11-SNAPSHOT")

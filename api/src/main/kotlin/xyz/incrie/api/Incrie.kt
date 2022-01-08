@@ -4,6 +4,8 @@ import me.kbrewster.eventbus.EventBus
 import me.kbrewster.eventbus.Subscribe
 import okhttp3.OkHttpClient
 import org.apache.logging.log4j.Logger
+import xyz.incrie.api.chat.ChatManager
+import xyz.incrie.api.connection.IncrieConnection
 import xyz.incrie.api.events.IncrieInitializationEvent
 import xyz.incrie.api.events.IncriePostInitializationEvent
 import xyz.incrie.api.gui.notifications.Notifications
@@ -15,8 +17,16 @@ interface Incrie {
 
     fun onInitialization(event: IncrieInitializationEvent)
 
+    fun version() = "@VERSION@"
+    fun name() = "@NAME@"
+    fun id() = "@ID@"
+
     fun logger(): Logger
     fun eventBus(): EventBus
+
+    fun connection(): IncrieConnection
+
+    fun chatManager(): ChatManager
 
     fun jsonHelper(): JsonHelper
     fun httpClient(): OkHttpClient
@@ -28,7 +38,6 @@ interface Incrie {
             @JvmStatic get
             private set
         lateinit var instance: Incrie
-            @JvmStatic get
             private set
         private fun instanceOr(): Incrie = if (this::instance.isInitialized) instance else throw IllegalStateException("Incrie has not yet been initialized, please try using Incrie#enqueueInitializationOperation")
 
@@ -72,6 +81,10 @@ interface Incrie {
         @JvmStatic fun enqueuePostInitialiationOperation(operation: Runnable) {
             postInitializationOperations.add(operation)
         }
+
+        @JvmStatic fun getVersion() = instanceOr().version()
+        @JvmStatic fun getName() = instanceOr().name()
+        @JvmStatic fun getId() = instanceOr().id()
 
         @JvmStatic fun getLogger() = instanceOr().logger()
         @JvmStatic fun getEventBus() = instanceOr().eventBus()

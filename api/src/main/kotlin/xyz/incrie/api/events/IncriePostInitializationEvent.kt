@@ -1,8 +1,6 @@
 package xyz.incrie.api.events
 
-import xyz.incrie.api.Incrie
-
-class IncriePostInitializationEvent : Event(Incrie.instance) {
+class IncriePostInitializationEvent : Event() {
     companion object {
         @JvmStatic var initialized: Boolean? = null
             set(value) {

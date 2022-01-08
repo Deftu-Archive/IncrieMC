@@ -32,6 +32,7 @@ dependencies {
 
     implementation(include("com.github.KevinPriv:keventbus:${eventBusVersion}"))
     implementation(include("com.squareup.okhttp3:okhttp:${okHttpVersion}"))
+    implementation(include("org.java-websocket:Java-WebSocket:${websocketVersion}"))
     implementation(include(project(":api"))) {
         exclude module: "mixin"
         exclude module: "universalcraft-1.18-fabric"
