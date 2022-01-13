@@ -1,7 +1,7 @@
-package xyz.incrie.chat
+package xyz.incrie.text
 
 import net.minecraft.client.MinecraftClient
-import xyz.incrie.api.chat.ChatManager
+import xyz.incrie.api.text.ChatManager
 import xyz.incrie.api.text.Text
 import xyz.incrie.utils.*
 

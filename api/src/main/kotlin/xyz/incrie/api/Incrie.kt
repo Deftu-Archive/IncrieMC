@@ -4,7 +4,7 @@ import me.kbrewster.eventbus.EventBus
 import me.kbrewster.eventbus.Subscribe
 import okhttp3.OkHttpClient
 import org.apache.logging.log4j.Logger
-import xyz.incrie.api.chat.ChatManager
+import xyz.incrie.api.text.ChatManager
 import xyz.incrie.api.connection.IncrieConnection
 import xyz.incrie.api.events.IncrieInitializationEvent
 import xyz.incrie.api.events.IncriePostInitializationEvent
@@ -26,12 +26,11 @@ interface Incrie {
 
     fun connection(): IncrieConnection
 
-    fun chatManager(): ChatManager
-
     fun jsonHelper(): JsonHelper
     fun httpClient(): OkHttpClient
     fun httpRequester(): HttpRequester
     fun notifications(): Notifications
+    fun chatManager(): ChatManager
 
     companion object {
         var initialized = false
@@ -63,14 +62,12 @@ interface Incrie {
             } else return false
         }
 
-        @Subscribe
-        private fun runInitialization(event: IncrieInitializationEvent) {
+        @Subscribe private fun runInitialization(event: IncrieInitializationEvent) {
             instance.onInitialization(event)
             for (initializationOperation in initializationOperations) initializationOperation.run()
         }
 
-        @Subscribe
-        private fun runPostInitialization(event: IncriePostInitializationEvent) {
+        @Subscribe private fun runPostInitialization(event: IncriePostInitializationEvent) {
             for (postInitializationOperation in postInitializationOperations) postInitializationOperation.run()
         }
 
@@ -93,5 +90,6 @@ interface Incrie {
         @JvmStatic fun getHttpClient() = instanceOr().httpClient()
         @JvmStatic fun getHttpRequester() = instanceOr().httpRequester()
         @JvmStatic fun getNotifications() = instanceOr().notifications()
+        @JvmStatic fun getChatManager() = instanceOr().chatManager()
     }
 }
