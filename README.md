@@ -1,9 +1,7 @@
-<div id="top"></div>
 <div align="center">
 
 # Incrie
-Core utilities and APIs for Minecraft modding.
-
+Core utilities and APIs for Minecraft modding.\
 [Report a bug][bugreps]
 ·
 [Request a feature][featreq]
