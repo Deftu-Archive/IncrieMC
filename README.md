@@ -1,6 +1,6 @@
 <div align="center">
 
-# Incrie
+# `Incrie`
 Core utilities and APIs for Minecraft modding.\
 [Report a bug][bugreps]
 ·
