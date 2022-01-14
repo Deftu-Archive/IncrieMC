@@ -17,9 +17,6 @@
     },
     "custom": {
         "modmenu": {
-            "links": {
-                "modmenu.discord": "https://discord.gg/QEVB5qF5gp"
-            },
             "badges": ["library"],
             "parent": "incrie-api"
         }

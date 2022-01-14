@@ -1,7 +1,9 @@
 plugins {
     id "com.github.johnrengelman.shadow" version "$shadowVersion"
     id "net.kyori.blossom" version "$blossomVersion" apply false
+    id "com.replaymod.preprocess" version "$preprocessVersion"
     id "org.jetbrains.kotlin.jvm" version "$kotlinVersion"
+    id "fabric-loom" version "0.10-SNAPSHOT" apply false
     id "maven-publish"
     id "signing"
     id "java"

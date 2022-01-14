@@ -29,17 +29,7 @@ dependencies {
 
     modImplementation("gg.essential:universalcraft-1.18-fabric:${universalCraftVersion}")
     modImplementation("gg.essential:elementa-1.18-fabric:${elementaVersion}")
-
-    implementation(include("com.github.KevinPriv:keventbus:${eventBusVersion}"))
-    implementation(include("com.squareup.okhttp3:okhttp:${okHttpVersion}"))
-    implementation(include("org.java-websocket:Java-WebSocket:${websocketVersion}"))
-    implementation(include(project(":api"))) {
-        exclude module: "mixin"
-        exclude module: "universalcraft-1.18-fabric"
-        exclude module: "elementa-1.18-fabric"
-        exclude module: "log4j-api"
-        exclude module: "log4j-core"
-    }
+    implementation(include(project(":api:1.18")))
 }
 
 processResources {
@@ -60,16 +50,4 @@ processResources {
 
 java {
     withSourcesJar()
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            groupId = projectGroup
-            artifactId = "$projectName-1.18.1"
-            version = projectVersion
-
-            from components.java
-        }
-    }
 }

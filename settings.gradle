@@ -1,8 +1,36 @@
-rootProject.name = projectName
-include (
-        'launcher-entrypoint',
-        'launcher',
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+        mavenLocal()
 
-        'api',
-        '1.18.1'
-)
+        maven { url "https://jitpack.io" }
+        maven { url "https://maven.fabricmc.net" }
+    }
+
+    resolutionStrategy {
+        eachPlugin {
+            switch (requested.id.id) {
+                case "com.replaymod.preprocess":
+                case "com.replaymod.preprocess-root": {
+                    useModule("com.github.replaymod:preprocessor:${requested.version}")
+                }
+            }
+        }
+    }
+}
+
+rootProject.name = projectName
+
+def versions = Arrays.asList("1.18")
+for (String version : versions) {
+    include(":api:$version")
+
+    def proj = project(":api:$version")
+    proj.projectDir = file("api/versions/$version")
+    proj.buildFileName = "../../build.gradle"
+}
+
+include(":launcher-entrypoint")
+include(":launcher")
+include(":1.18.1")
