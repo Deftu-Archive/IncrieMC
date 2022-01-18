@@ -1,7 +1,7 @@
 ---
-name: [BUG REPORT] Bug Report
+name: Bug Report
 about: Report a bug you have found
-title: Bug Report
+title: [BUG REPORT] Bug Report
 labels: bug
 assignees: 'Deftu'
 
