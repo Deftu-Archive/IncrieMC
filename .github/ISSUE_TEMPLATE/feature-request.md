@@ -1,7 +1,7 @@
 ---
 name: Feature Request
 about: Request a new feature to be added.
-title: [FEATURE REQUEST] Feature Request
+title: "[FEATURE REQUEST] Feature Request"
 labels: enhancement
 assignees: 'Deftu'
 
