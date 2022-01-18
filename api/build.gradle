@@ -51,7 +51,7 @@ apply plugin: "java"
 archivesBaseName = projectName
 
 blossom {
-    def name = "src/main/kotlin/xyz/incrie/api/Incrie.kt"
+    def name = "api/src/main/kotlin/xyz/incrie/api/Incrie.kt"
     replaceToken("@VERSION@", projectVersion, name)
     replaceToken("@NAME@", projectName, name)
     replaceToken("@ID@", projectId, name)
