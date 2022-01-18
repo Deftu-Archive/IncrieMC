@@ -1,5 +1,5 @@
 ---
-name: Feature Request
+name: [FEATURE REQUEST] Feature Request
 about: Request a new feature to be added.
 title: Feature Request
 labels: enhancement
