@@ -4,7 +4,10 @@
     "id": "${id}-api",
     "version": "${version}",
     "icon": "logo.png",
-    "description": "Simply utility for mod developers.",
+    "description": "Advanced API for mod developers.",
     "license": "LGPL-3.0",
-    "environment": "client"
+    "environment": "client",
+    "suggests": {
+        "modmenu": ">=3.0.1"
+    }
 }
