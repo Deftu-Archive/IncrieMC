@@ -6,11 +6,22 @@ gradle-app.setting
 .gradletasknamecache
 
 # IntelliJ
-/.idea/
-/output/
+.idea
+!.idea/copyright
+output
+out
 *.iml
 *.ipr
 *.iws
+
+# Eclipse
+eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
 
 # Minecraft
 **/run/
