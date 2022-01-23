@@ -5,6 +5,7 @@
     "compatibilityLevel": "JAVA_16",
     "client": [
         "GameRendererMixin",
+        "InGameHudMixin",
         "MinecraftClientMixin",
         "MouseMixin",
         "TitleScreenMixin"

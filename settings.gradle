@@ -22,6 +22,10 @@ pluginManagement {
 
 rootProject.name = projectName
 
+include(":api")
+def api = project(":api")
+api.buildFileName = "root.gradle"
+
 def versions = Arrays.asList("1.18")
 for (String version : versions) {
     include(":api:$version")

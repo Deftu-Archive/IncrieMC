@@ -7,7 +7,7 @@ public class EnvironmentHandler {
     }
 
     public static String getDownloadJsonUrl() {
-        return System.getProperty("incrie.launcher.download.json", "https://raw.githubusercontent.com/Incrie/DataStorage/main/downloads/version.json");
+        return System.getProperty("incrie.launcher.download.json", "https://data.incrie.xyz/products/incriemc/downloads/version.json");
     }
 
     public static String retrieveJsonFilePath(String majorVersion, String gameVersion) {
@@ -17,7 +17,7 @@ public class EnvironmentHandler {
     }
 
     public static String retrieveDownloadJarUrl(String majorVersion, String gameVersion, String version) {
-        return System.getProperty("incrie.launcher.download.jar", "https://raw.githubusercontent.com/Incrie/DataStorage/main/downloads/{major}/{game}/{version}")
+        return System.getProperty("incrie.launcher.download.jar", "https://data.incrie.xyz/products/incriemc/downloads/{major}/{game}/{version}")
                 .replace("{major}", majorVersion)
                 .replace("{game}", gameVersion)
                 .replace("{version}", version);

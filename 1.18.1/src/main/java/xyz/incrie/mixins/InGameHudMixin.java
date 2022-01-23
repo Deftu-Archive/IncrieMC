@@ -18,20 +18,31 @@
 
 package xyz.incrie.mixins;
 
-import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.network.MessageType;
+import net.minecraft.text.Text;
+import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.incrie.api.Incrie;
-import xyz.incrie.api.events.RenderTickEvent;
+import xyz.incrie.text.ChatManagerImpl;
 
-@Mixin({GameRenderer.class})
-public class GameRendererMixin {
+import java.util.UUID;
 
-    @Inject(method = "render", at = @At("TAIL"))
-    private void incrie$onRender(float tickDelta, long startTime, boolean tick, CallbackInfo ci) {
-        Incrie.getEventBus().post(new RenderTickEvent());
+@Mixin({InGameHud.class})
+public class InGameHudMixin {
+
+    @Inject(method = "addChatMessage", at = @At(value = "TAIL"))
+    private void incrie$onChatMessageAdded(MessageType type, Text message, UUID sender, CallbackInfo ci) {
+        World world = MinecraftClient.getInstance().world;
+        if (world == null) return;
+        world.getPlayers().stream().filter(player -> player.getUuid().equals(sender)).findFirst().ifPresent(player -> {
+            ((ChatManagerImpl) Incrie.getChatManager()).getSenderHistory().add((AbstractClientPlayerEntity) player);
+        });
     }
 
 }

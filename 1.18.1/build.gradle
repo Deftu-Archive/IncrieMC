@@ -29,7 +29,7 @@ dependencies {
 
     modImplementation("gg.essential:universalcraft-1.18-fabric:${universalCraftVersion}")
     modImplementation("gg.essential:elementa-1.18-fabric:${elementaVersion}")
-    implementation(include(project(":api:1.18")))
+    modImplementation(include(project(":api:1.18")))
 }
 
 processResources {

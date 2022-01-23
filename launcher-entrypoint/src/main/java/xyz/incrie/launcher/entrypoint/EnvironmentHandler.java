@@ -7,7 +7,7 @@ public class EnvironmentHandler {
     }
 
     public static String getDownloadUrl() {
-        return System.getProperty("incrie.entry.download", "https://raw.githubusercontent.com/Incrie/DataStorage/main/downloads/v1/IncrieLauncher.jar");
+        return System.getProperty("incrie.entry.download", "https://data.incrie.xyz/products/incriemc/downloads/v1/IncrieLauncher.jar");
     }
 
     public static String getMajorVersion() {

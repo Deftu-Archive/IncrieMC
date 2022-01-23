@@ -42,7 +42,7 @@ if (FABRIC) {
 }
 
 apply plugin: "com.github.johnrengelman.shadow"
-apply plugin: "com.replaymod.preprocess-root"
+apply plugin: "com.replaymod.preprocess"
 apply plugin: "org.jetbrains.kotlin.jvm"
 apply plugin: "net.kyori.blossom"
 apply plugin: "maven-publish"
@@ -50,16 +50,72 @@ apply plugin: "java"
 
 archivesBaseName = projectName
 
+if (FABRIC) {
+    loom {
+        runConfigs.all {
+            ideConfigGenerated = true
+        }
+    }
+} else {
+    minecraft {
+        if (FG3) {
+            runs {
+                client {
+                    workingDirectory rootProject.file('run')
+                    property 'forge.logging.console.level', 'info'
+                    mods {
+                        examplemod {
+                            source sourceSets.main
+                        }
+                    }
+                }
+            }
+        } else {
+            runDir = "run"
+        }
+
+        if (!FG3) {
+            version = [
+                    11202: '1.12.2-14.23.0.2486',
+                    11201: '1.12.1-14.22.0.2444',
+                    11200: '1.12-14.21.1.2387',
+                    11102: '1.11.2-13.20.0.2216',
+                    11100: '1.11-13.19.1.2188',
+                    11002: '1.10.2-12.18.2.2099',
+                    10904: '1.9.4-12.17.0.1976',
+                    10809: '1.8.9-11.15.1.2318-1.8.9',
+                    10800: '1.8-11.14.4.1563',
+                    10710: '1.7.10-10.13.4.1558-1.7.10',
+            ][mcVersion]
+            mappings = [
+                    11404: "snapshot_20190719-1.14.3",
+                    11202: "snapshot_20170615",
+                    11201: "snapshot_20170615",
+                    11200: "snapshot_20170615",
+                    11102: "snapshot_20161220",
+                    11100: "snapshot_20161111",
+                    11002: "snapshot_20160518",
+                    10904: "snapshot_20160518",
+                    10809: "stable_22",
+                    10800: "snapshot_nodoc_20141130",
+                    10710: "stable_12",
+            ][mcVersion]
+        } else if (mcVersion < 11700) {
+            mappings channel: 'snapshot', version: [
+                    11502: '20200220-1.15.1',
+                    11602: '20201028-1.16.3',
+            ][mcVersion]
+        } else {
+            mappings channel: 'official', version: mcVersionStr
+        }
+    }
+}
+
 blossom {
     def name = "api/src/main/kotlin/xyz/incrie/api/Incrie.kt"
     replaceToken("@VERSION@", projectVersion, name)
     replaceToken("@NAME@", projectName, name)
     replaceToken("@ID@", projectId, name)
-}
-
-preprocess {
-    def api11800 = createNode("api:1.18", 11800, "yarn")
-    System.out.println(api11800)
 }
 
 dependencies {

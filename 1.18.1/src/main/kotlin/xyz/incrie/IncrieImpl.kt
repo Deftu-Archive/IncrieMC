@@ -41,7 +41,7 @@ class IncrieImpl : Incrie {
         notifications = NotificationsImpl(internalHud.window).also { it.initialize() }
         chatManager = ChatManagerImpl()
 
-        connection = IncrieConnection(this, "").also { it.awaitConnect() }
+        //connection = IncrieConnection(this, "").also { it.awaitConnect() }
     }
 
     override fun logger() = logger
