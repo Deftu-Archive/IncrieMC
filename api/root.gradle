@@ -9,6 +9,7 @@ vars.put("FORGE", project.fabric ? 0 : 1)
 plugins {
     id "com.github.johnrengelman.shadow"
     id "com.replaymod.preprocess-root"
+    id "org.jetbrains.kotlin.jvm"
     id "fabric-loom" apply false
 }
 

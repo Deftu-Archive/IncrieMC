@@ -11,7 +11,6 @@ import xyz.incrie.api.events.IncrieInitializationEvent
 import xyz.incrie.api.events.IncriePostInitializationEvent
 import xyz.incrie.api.gui.notifications.Notifications
 import xyz.incrie.api.http.HttpRequester
-import xyz.incrie.api.text.ChatPrefix
 import xyz.incrie.api.utils.JsonHelper
 import java.util.*
 
