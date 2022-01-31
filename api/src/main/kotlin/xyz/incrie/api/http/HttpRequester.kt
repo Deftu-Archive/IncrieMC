@@ -17,7 +17,7 @@ class HttpRequester(
     }
 
     fun requestJson(request: Request, callback: Consumer<JsonElement>) {
-        request(request) { it ->
+        request(request) {
             it.body?.let {
                 callback.accept(Incrie.getJsonHelper().parse(it.string()))
             }

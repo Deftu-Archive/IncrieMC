@@ -11,6 +11,9 @@ buildscript {
     }
 }
 
+apply plugin: "org.jetbrains.kotlin.jvm"
+apply plugin: "java"
+
 apply plugin: "maven-publish"
 apply plugin: "fabric-loom"
 

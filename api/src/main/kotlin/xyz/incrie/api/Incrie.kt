@@ -1,15 +1,17 @@
 package xyz.incrie.api
 
+import gg.essential.universal.ChatColor
 import me.kbrewster.eventbus.EventBus
 import me.kbrewster.eventbus.Subscribe
 import okhttp3.OkHttpClient
 import org.apache.logging.log4j.Logger
 import xyz.incrie.api.text.ChatManager
-import xyz.incrie.api.connection.IncrieConnection
+import xyz.incrie.api.ws.IncrieWebSocket
 import xyz.incrie.api.events.IncrieInitializationEvent
 import xyz.incrie.api.events.IncriePostInitializationEvent
 import xyz.incrie.api.gui.notifications.Notifications
 import xyz.incrie.api.http.HttpRequester
+import xyz.incrie.api.text.ChatPrefix
 import xyz.incrie.api.utils.JsonHelper
 import java.util.*
 
@@ -24,7 +26,7 @@ interface Incrie {
     fun logger(): Logger
     fun eventBus(): EventBus
 
-    fun connection(): IncrieConnection
+    fun connection(): IncrieWebSocket
 
     fun jsonHelper(): JsonHelper
     fun httpClient(): OkHttpClient

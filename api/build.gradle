@@ -14,14 +14,14 @@ buildscript {
     repositories {
         mavenCentral()
         maven { url "https://maven.fabricmc.net/" }
-        if (!fabric) maven { url "https://files.minecraftforge.net/maven" }
+        if (!fabric) maven { url "https://maven.minecraftforge.net/" }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://jitpack.io" }
     }
 
     dependencies {
         if (fabric) {
-            classpath("fabric-loom:fabric-loom.gradle.plugin:0.10-SNAPSHOT")
+            classpath("net.fabricmc:fabric-loom:0.10-SNAPSHOT")
         } else {
             def forgeGradleVersion = mcVersion >= 11200 ? "717a9f4" :
                     mcVersion >= 10904 ? "83163c1" :
@@ -35,11 +35,8 @@ buildscript {
 }
 
 def FABRIC = fabric
-if (FABRIC) {
-    apply plugin: "fabric-loom"
-} else {
-    apply plugin: "net.minecraftforge.gradle.forge"
-}
+if (FABRIC) apply plugin: "fabric-loom"
+else apply plugin: "net.minecraftforge.gradle.forge"
 
 apply plugin: "com.github.johnrengelman.shadow"
 apply plugin: "com.replaymod.preprocess"
@@ -112,7 +109,7 @@ if (FABRIC) {
 }
 
 blossom {
-    def name = "api/src/main/kotlin/xyz/incrie/api/Incrie.kt"
+    def name = "src/main/kotlin/xyz/incrie/api/Incrie.kt"
     replaceToken("@VERSION@", projectVersion, name)
     replaceToken("@NAME@", projectName, name)
     replaceToken("@ID@", projectId, name)
@@ -135,6 +132,7 @@ dependencies {
     shade("xyz.deftu.deftils:Deftils:${deftilsVersion}")
     shade("com.github.ben-manes.caffeine:caffeine:${caffeineVersion}")
     shade(api("org.java-websocket:Java-WebSocket:${websocketVersion}"))
+    shade(api("xyz.deftu.quicksocket:QuickSocket:${quickSocketVersion}"))
     shade(api("com.squareup.okhttp3:okhttp:${okHttpVersion}"))
 
     compileOnly("org.spongepowered:mixin:0.7.11-SNAPSHOT")

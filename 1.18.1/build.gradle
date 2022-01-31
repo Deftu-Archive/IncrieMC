@@ -11,6 +11,9 @@ buildscript {
     }
 }
 
+apply plugin: "org.jetbrains.kotlin.jvm"
+apply plugin: "java"
+
 apply plugin: "maven-publish"
 apply plugin: "fabric-loom"
 
@@ -29,7 +32,7 @@ dependencies {
 
     modImplementation("gg.essential:universalcraft-1.18-fabric:${universalCraftVersion}")
     modImplementation("gg.essential:elementa-1.18-fabric:${elementaVersion}")
-    modImplementation(include(project(":api:1.18")))
+    modImplementation(shade(project(":api:1.18")))
 }
 
 processResources {

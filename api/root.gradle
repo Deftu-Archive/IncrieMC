@@ -9,47 +9,9 @@ vars.put("FORGE", project.fabric ? 0 : 1)
 plugins {
     id "com.github.johnrengelman.shadow"
     id "com.replaymod.preprocess-root"
-    id "org.jetbrains.kotlin.jvm"
     id "fabric-loom" apply false
-    id "net.kyori.blossom"
-    id "java"
 }
 
 preprocess {
     createNode("1.18", 11800, "yarn")
-}
-
-dependencies {
-    shade("org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinCoroutinesVersion}")
-    shade("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
-
-    shade(api("com.github.KevinPriv:keventbus:${eventBusVersion}"))
-    shade("xyz.deftu.deftils:Deftils:${deftilsVersion}")
-    shade("com.github.ben-manes.caffeine:caffeine:${caffeineVersion}")
-    shade(api("org.java-websocket:Java-WebSocket:${websocketVersion}"))
-    shade(api("com.squareup.okhttp3:okhttp:${okHttpVersion}"))
-
-    compileOnly("org.spongepowered:mixin:0.7.11-SNAPSHOT")
-
-    shade(api("gg.essential:universalcraft-1.18-fabric:${universalCraftVersion}")) {
-        exclude module: "kotlin-stdlib-jdk8"
-        exclude module: "kotlin-reflect"
-        exclude module: "minecraft"
-        exclude module: "yarn"
-        exclude module: "fabric-loader"
-        exclude module: "fabric-api"
-        exclude module: "forge"
-    }
-    shade(api("gg.essential:elementa-1.18-fabric:${elementaVersion}")) {
-        exclude module: "kotlin-stdlib-jdk8"
-        exclude module: "kotlin-reflect"
-        exclude module: "minecraft"
-        exclude module: "yarn"
-        exclude module: "fabric-loader"
-        exclude module: "fabric-api"
-        exclude module: "forge"
-    }
-
-    implementation("org.apache.logging.log4j:log4j-api:2.17.0")
-    implementation("org.apache.logging.log4j:log4j-core:2.17.0")
 }

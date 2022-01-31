@@ -1,3 +1,6 @@
+apply plugin: "org.jetbrains.kotlin.jvm"
+apply plugin: "java"
+
 dependencies {
     shade("com.squareup.okhttp3:okhttp:${okHttpVersion}")
     shade("commons-io:commons-io:2.11.0")

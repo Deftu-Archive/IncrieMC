@@ -1,11 +1,11 @@
 pluginManagement {
     repositories {
+        maven { url("https://jitpack.io") }
+        maven { url("https://maven.fabricmc.net") }
+
         gradlePluginPortal()
         mavenCentral()
         mavenLocal()
-
-        maven { url "https://jitpack.io" }
-        maven { url "https://maven.fabricmc.net" }
     }
 
     resolutionStrategy {
@@ -22,9 +22,12 @@ pluginManagement {
 
 rootProject.name = projectName
 
+include(":launcher-entrypoint")
+include(":launcher")
+include(":1.18.1")
+
 include(":api")
-def api = project(":api")
-api.buildFileName = "root.gradle"
+project(":api").buildFileName = "root.gradle"
 
 def versions = Arrays.asList("1.18")
 for (String version : versions) {
@@ -34,7 +37,3 @@ for (String version : versions) {
     proj.projectDir = file("api/versions/$version")
     proj.buildFileName = "../../build.gradle"
 }
-
-include(":launcher-entrypoint")
-include(":launcher")
-include(":1.18.1")
